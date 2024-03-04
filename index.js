@@ -104,7 +104,7 @@ function getStockData(stock_name, start_date, end_date) {
     };
     
     return new Promise((resolve, reject) => {
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${stock_name}/range/1/day/${start_date}/${end_date}?adjusted=true&sort=asc`, {
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${stock_name.value}/range/1/day/${start_date.value}/${end_date.value}?adjusted=true&sort=asc`, {
             headers: headers,
         })
         .then(response => response.json())
