@@ -110,3 +110,12 @@ body.light .mode-selector {
     font-size: 12px;
     pointer-events: none;
 }
+.line2 {
+    stroke: orange;
+}
+.line3 {
+    stroke: green;
+}
+.legend {
+    display: none;
+}

@@ -14,6 +14,40 @@ function hideLoadingSpinner() {
   loadingSpinner.style.display = "none";
 }
 
+function createTooltip(svg,data,tooltip,xScale,yScale,item) {
+    dict = {'h': 'Highest', 'o': 'Opening', 'c': 'Closing'}
+    svg.selectAll()
+    .data(data)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("cx", d => xScale(new Date(d.t)))
+    .attr("cy", d => yScale(d[item]))
+    .attr("r", 8)
+    .attr('fill-opacity', 0)
+    .on("mouseover", function(event, d) {
+        // Show tooltip
+        tooltip.transition().duration(200).style("opacity", 0.9).style('color', 'brown');
+        tooltip.html(`Date: ${new Date(d.t).toLocaleDateString()}<br>Value: ${d[item]}<br>Type: ${dict[item]}`)
+            .style("left", (event.pageX + 20) + "px")
+            .style("top", (event.pageY - 20) + "px");
+    
+        // Make circle visible when hovered over
+        d3.select(this).attr("fill", "steelblue").attr('fill-opacity', 1);
+    })
+    .on("mousemove", function(event) {
+        // Update tooltip position to follow the mouse
+        tooltip.style("left", (event.pageX + 20) + "px")
+            .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", function() {
+        // Hide tooltip
+        tooltip.transition().duration(400).style("opacity", 0);
+    
+        // Reset circle appearance
+        d3.select(this).transition().duration(100).attr("fill-opacity", 0);
+    });
+}
+
 function processData(data) {
     // Function to process data and create a visualization of it.
     // Set up SVG dimensions
@@ -34,7 +68,7 @@ function processData(data) {
         .range([0, width]);
 
     const yScale = d3.scaleLinear()
-        .domain([d3.min(data, d => d.c), d3.max(data, d => d.c)])
+        .domain([Math.min(d3.min(data, d => d.c), d3.min(data, d => d.o)), d3.max(data, d => d.h)])
         .range([height, 0]);
 
     // Create line generator
@@ -42,11 +76,31 @@ function processData(data) {
         .x(d => xScale(new Date(d.t)))
         .y(d => yScale(d.c));
 
+    const line2 = d3.line()
+        .x(d => xScale(new Date(d.t)))
+        .y(d => yScale(d.h));
+    
+    const line3 = d3.line()
+        .x(d => xScale(new Date(d.t)))
+        .y(d => yScale(d.o));
+
+ 
+        
     // Append the line path
     svg.append("path")
         .datum(data)
         .attr("class", "line")
         .attr("d", line); // Use the line generator
+    
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line line2")
+        .attr("d", line2);
+
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line line3")
+        .attr("d", line3);
 
     // Add axes
     svg.append("g")
@@ -61,36 +115,9 @@ function processData(data) {
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-    svg.selectAll(".dot")
-    .data(data)
-    .enter().append("circle")
-    .attr("class", "dot")
-    .attr("cx", d => xScale(new Date(d.t)))
-    .attr("cy", d => yScale(d.c))
-    .attr("r", 8)
-    .attr('fill-opacity', 0)
-    .on("mouseover", function(event, d) {
-        // Show tooltip
-        tooltip.transition().duration(200).style("opacity", 0.9).style('color', 'brown');
-        tooltip.html(`Date: ${new Date(d.t).toLocaleDateString()}<br>Value: ${d.c}`)
-            .style("left", (event.pageX + 20) + "px")
-            .style("top", (event.pageY - 20) + "px");
-    
-        // Make circle visible when hovered over
-        d3.select(this).attr("fill", "steelblue").attr('fill-opacity', 1);
-    })
-    .on("mousemove", function(event) {
-        // Update tooltip position to follow the mouse
-        tooltip.style("left", (event.pageX + 20) + "px")
-            .style("top", (event.pageY - 20) + "px");
-    })
-    .on("mouseout", function() {
-        // Hide tooltip
-        tooltip.transition().duration(400).style("opacity", 0);
-    
-        // Reset circle appearance
-        d3.select(this).transition().duration(100).attr("fill-opacity", 0);
-    });
+    createTooltip(svg,data,tooltip,xScale,yScale,'c')
+    createTooltip(svg,data,tooltip,xScale,yScale,'o')
+    createTooltip(svg,data,tooltip,xScale,yScale,'h')
     
     
 }
@@ -110,7 +137,7 @@ function getStockData(stock_name, start_date, end_date) {
         .then(response => response.json())
         .then(data => {
             processData(data.results);
-            resolve(); // Resolve the Promise after data processing so that the rest can process
+            resolve(); // Resolve the Promise after data processing so that the rest can run
         })
         .catch(error => reject(error));
     });
@@ -119,11 +146,13 @@ function getStockData(stock_name, start_date, end_date) {
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
+    const svgElement = document.getElementById("stockChart");
+    svgElement.innerHTML = ""
     showLoadingSpinner();
     getStockData(stockName,startDate, endDate)
     .then(() => {
+        d3.select('.legend').style('display', 'block')
         hideLoadingSpinner(); // Hide loading spinner when data processing is complete
-        const svgElement = document.getElementById("stockChart");
         const svgPosition = svgElement.getBoundingClientRect().top;
   
         // Scroll the page to the SVG element
