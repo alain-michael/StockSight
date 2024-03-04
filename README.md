@@ -12,28 +12,28 @@ This project is a simple web application for visualizing stock data using D3.js.
 
 ## Getting Started
 
-To run the project locally, follow these steps:
+To run the project locally:
 
-1. Clone this repository to your local machine.
-   ```bash
-   git clone https://github.com/your-username/stock-chart-visualization.git
-Navigate to the project directory.
+Go to [https://alain-michael.github.io/Stocks-scraper-with-visualization/](url)
 
-bash
-Copy code
-cd stock-chart-visualization
-Open the index.html file in your web browser.
 
-Usage
+## Usage
+
 Enter the ticker symbol of the stock you want to visualize.
 Select the start and end dates for the stock data.
 Click the "Submit" button to fetch and visualize the stock data.
 Scroll down to view the generated line chart.
-Dependencies
+
+## Dependencies
+
 D3.js: A JavaScript library for manipulating documents based on data.
 Font Awesome: A library of scalable vector icons.
-Credits
+
+## Credits
+
 This project uses data from the Polygon API.
 Icons provided by Font Awesome.
-License
+
+## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
