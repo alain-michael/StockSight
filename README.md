@@ -14,7 +14,7 @@ This project is a simple web application for visualizing stock data using D3.js.
 
 To run the project locally:
 
-Go to [https://alain-michael.github.io/Stocks-scraper-with-visualization/](url)
+Go to <https://alain-michael.github.io/Stocks-scraper-with-visualization/>
 
 
 ## Usage
