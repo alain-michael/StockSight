@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(35, 46, 46);
+  color: aquamarine;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.2rem;
+  text-decoration: underline dashed;
+  background-color: rgba(0, 0, 0, 0.232);
+  padding: 10px;
+}
+#stock-form {
+  padding: 20px;
+  font-size: 1.4rem;
+  width: 50%;
+  margin: 20px auto;
+}
+#stock-form label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 0;
+}
+#stock-form input {
+  height: 30px;
+  padding: 8px;
+  border: 0;
+  border-radius: 10px;
+  width: 178px;
+}
+
+[type="submit"] {
+  background: linear-gradient(
+    90deg,
+    rgb(35, 46, 46),
+    aquamarine,
+    rgb(204, 234, 232)
+  );
+  padding: 20px;
+  line-height: 0;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+#choose-mode {
+  position: absolute;
+  background-color: brown;
+  padding: 10px;
+  width: 80px;
+  border-radius: 20px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+#choose-mode .fa-regular {
+  font-size: 1.4rem;
+}
+#choose-mode .fa-sun {
+  float: right;
+}
+#choose-mode .fa-moon {
+  float: left;
+}
+
+#choose-mode button {
+  cursor: pointer;
+  position: absolute;
+  left: 4%;
+  border: 0;
+  padding: 18px;
+  top: 3px;
+  border-radius: 50%;
+  transition: all 1s ease;
+}
+body.light {
+  background-color: white;
+  color: black;
+}
+
+body.light #stock-form {
+  background-color: rgba(137, 43, 226, 0.324);
+  border-radius: 20px;
+}
+
+body.light .title {
+  background-color: rgba(137, 43, 226, 0.324);
+}
+
+body.light .mode-selector {
+  transform: translateX(160%);
+  transition: all 1s ease;
+}
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2;
+}
+.tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 12px;
+    pointer-events: none;
+}
