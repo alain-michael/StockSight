@@ -14,6 +14,7 @@ function hideLoadingSpinner() {
   loadingSpinner.style.display = "none";
 }
 
+
 function createTooltip(svg,data,tooltip,xScale,yScale,item) {
     dict = {'h': 'Highest', 'o': 'Opening', 'c': 'Closing'}
     svg.selectAll()
@@ -166,3 +167,41 @@ form.addEventListener("submit", (event) => {
 switcher.addEventListener("click", () => {
   body.classList.toggle("light");
 });
+
+const stockCards = document.querySelectorAll('.stock-card');
+const stockInput = document.querySelector('[name="name"]');
+
+// Function to set default dates if not already set
+function setDefaultDates() {
+    const today = new Date();
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+    
+    const startDateInput = document.querySelector('[name="start-date"]');
+    const endDateInput = document.querySelector('[name="end-date"]');
+    
+    if (!startDateInput.value) {
+        startDateInput.value = oneYearAgo.toISOString().split('T')[0];
+    }
+    if (!endDateInput.value) {
+        endDateInput.value = today.toISOString().split('T')[0];
+    }
+}
+
+// Add click event listeners to stock cards
+stockCards.forEach(card => {
+    card.addEventListener('click', () => {
+        const symbol = card.dataset.symbol;
+        stockInput.value = symbol;
+        setDefaultDates();
+        
+        // Add a subtle highlight effect
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            card.style.transform = 'translateY(-2px)';
+        }, 150);
+    });
+});
+
+// Call setDefaultDates when the page loads
+document.addEventListener('DOMContentLoaded', setDefaultDates);

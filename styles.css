@@ -1,121 +1,291 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
 }
 
 body {
-  background-color: rgb(35, 46, 46);
-  color: aquamarine;
+  background-color: #1a1a2e;
+  color: #e6e6ff;
+  min-height: 100vh;
+  transition: all 0.3s ease;
 }
 
 .title {
   text-align: center;
-  font-size: 2.2rem;
-  text-decoration: underline dashed;
-  background-color: rgba(0, 0, 0, 0.232);
-  padding: 10px;
-}
-#stock-form {
-  padding: 20px;
-  font-size: 1.4rem;
-  width: 50%;
-  margin: 20px auto;
-}
-#stock-form label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 40px 0;
-}
-#stock-form input {
-  height: 30px;
-  padding: 8px;
-  border: 0;
-  border-radius: 10px;
-  width: 178px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  padding: 2rem 0;
+  background: linear-gradient(90deg, #4a90e2, #67b26f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
 }
 
-[type="submit"] {
-  background: linear-gradient(
-    90deg,
-    rgb(35, 46, 46),
-    aquamarine,
-    rgb(204, 234, 232)
-  );
-  padding: 20px;
-  line-height: 0;
-  cursor: pointer;
-  display: block;
+.popular-stocks {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #67b26f;
+}
+
+#stock-form {
+  max-width: 600px;
   margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+#stock-form label {
+  display: block;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+#stock-form input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e6e6ff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+#stock-form input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+#stock-form [type="submit"] {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(90deg, #4a90e2, #67b26f);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#stock-form [type="submit"]:hover {
+  transform: translateY(-2px);
 }
 
 #choose-mode {
-  position: absolute;
-  background-color: brown;
-  padding: 10px;
-  width: 80px;
-  border-radius: 20px;
-  margin: 8px;
-  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.8rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
 }
 
-#choose-mode .fa-regular {
-  font-size: 1.4rem;
-}
-#choose-mode .fa-sun {
-  float: right;
-}
-#choose-mode .fa-moon {
-  float: left;
-}
-
-#choose-mode button {
-  cursor: pointer;
-  position: absolute;
-  left: 4%;
-  border: 0;
-  padding: 18px;
-  top: 3px;
+.mode-selector {
+  width: 24px;
+  height: 24px;
+  background: #4a90e2;
+  border: none;
   border-radius: 50%;
-  transition: all 1s ease;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
+.fa-sun, .fa-moon {
+  font-size: 1.2rem;
+  color: #e6e6ff;
+}
+
+#loadingSpinner {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.legend {
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend span::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend span[style*="orange"]::before { background-color: orange; }
+.legend span[style*="green"]::before { background-color: #67b26f; }
+.legend span[style*="steelblue"]::before { background-color: #4a90e2; }
+
+#stockChart {
+  max-width: 100%;
+  height: auto;
+  margin: 2rem auto;
+  display: block;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2;
+}
+
+.line2 { stroke: orange !important; }
+.line3 { stroke: #67b26f !important; }
+.line { stroke: #4a90e2; }
+
+.tooltip {
+  position: absolute;
+  background: rgba(26, 26, 46, 0.95);
+  color: #e6e6ff !important;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Light mode styles */
 body.light {
-  background-color: white;
-  color: black;
+  background-color: #f5f5f7;
+  color: #1a1a2e;
 }
 
 body.light #stock-form {
-  background-color: rgba(137, 43, 226, 0.324);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
-body.light .title {
-  background-color: rgba(137, 43, 226, 0.324);
+body.light #stock-form input {
+  background: white;
+  border-color: #e1e1e1;
+  color: #1a1a2e;
 }
 
 body.light .mode-selector {
-  transform: translateX(160%);
-  transition: all 1s ease;
+  transform: translateX(24px);
 }
-.line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 2;
+
+body.light .tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a2e;
 }
-.tooltip {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 5px;
-    font-size: 12px;
-    pointer-events: none;
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+    padding: 1.5rem 0;
+  }
+  
+  #stock-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .legend {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
-.line2 {
-    stroke: orange;
+
+.popular-stocks {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  padding: 1rem;
 }
-.line3 {
-    stroke: green;
+
+.popular-stocks-title {
+  text-align: center;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #67b26f;
+  margin-bottom: 1rem;
 }
-.legend {
-    display: none;
+
+.stocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stock-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.stock-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.stock-symbol {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #4a90e2;
+}
+
+.stock-name {
+  font-size: 0.9rem;
+  color: #e6e6ff;
+  opacity: 0.8;
+}
+
+/* Light mode additions */
+body.light .stock-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #e1e1e1;
+}
+
+body.light .stock-card:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+body.light .stock-name {
+  color: #1a1a2e;
+}
+
+/* Rest of the previous styles remain the same */
+
+@media (max-width: 768px) {
+  .stocks-grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 1rem;
+  }
 }
